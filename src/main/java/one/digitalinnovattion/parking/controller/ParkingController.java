@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/parking")
-@Api("/Parking controller")
+@Api(tags = "Parking controller")
 public class ParkingController {
 
     private final ParkingService parkingService;
@@ -41,6 +41,11 @@ public class ParkingController {
         ParkingDTO result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.ok(result);
 
+    }@DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable String id) {
+        parkingService.delete(id);
+        return ResponseEntity.notFound().build();
+
     }
     @PostMapping
     public ResponseEntity<ParkingDTO> create(@RequestBody ParkingCreateDTO dto) {
@@ -48,6 +53,12 @@ public class ParkingController {
         var parking = parkingService.create(parkingCreate);
         var result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+
+    }@PutMapping("{/id}")
+    public ResponseEntity<ParkingDTO> update(@PathVariable String id, @RequestBody ParkingCreateDTO parkingCreateDTO) {
+        Parking parkingUpdate = parkingMapper.toParkingCreate(parkingCreateDTO);
+        Parking parking = parkingService.update(id, parkingUpdate);
+        return ResponseEntity.ok(parkingMapper.toParkingDTO(parking));
 
     }
 }
