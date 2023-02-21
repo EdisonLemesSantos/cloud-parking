@@ -1,9 +1,11 @@
 package one.digitalinnovattion.parking.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-
+@Entity
 public class Parking {
-
+    @Id
     private String id;
     private String license;
     private String state;
@@ -86,5 +88,8 @@ public class Parking {
 
     public void setBill(Double bill) {
         this.bill = bill;
+    }
+
+    public void setBill(String bill) {
     }
 }

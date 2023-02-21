@@ -36,7 +36,7 @@ public class ParkingController {
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ParkingDTO> fidById(@PathVariable String id) {
+    public ResponseEntity<ParkingDTO> findById(@PathVariable String id) {
         Parking parking = parkingService.findById(id);
         ParkingDTO result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.ok(result);
@@ -54,11 +54,17 @@ public class ParkingController {
         var result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
-    }@PutMapping("{/id}")
+    }@PutMapping("/{id}")
     public ResponseEntity<ParkingDTO> update(@PathVariable String id, @RequestBody ParkingCreateDTO parkingCreateDTO) {
         Parking parkingUpdate = parkingMapper.toParkingCreate(parkingCreateDTO);
         Parking parking = parkingService.update(id, parkingUpdate);
         return ResponseEntity.ok(parkingMapper.toParkingDTO(parking));
 
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id){
+        Parking parking = parkingService.checkOut(id);
+        return ResponseEntity.ok(parkingMapper.toParkingDTO(parking));
     }
 }
